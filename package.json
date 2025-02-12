@@ -1,0 +1,11 @@
+{
+	"name": "gs-stripe",
+	"version": "0.1.0",
+	"license": "MIT",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@nestjs/core",
+			"@swc/core"
+		]
+	}
+}
