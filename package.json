@@ -5,7 +5,8 @@
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"@nestjs/core",
-			"@swc/core"
+			"@swc/core",
+			"esbuild"
 		]
 	}
 }

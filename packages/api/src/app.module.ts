@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { getConfiguration } from './config/root.config';
 
 @Module({
-  imports: [],
+  imports: [ConfigModule.forRoot({ load: [getConfiguration], isGlobal: true })],
   controllers: [AppController],
   providers: [AppService],
 })
