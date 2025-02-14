@@ -1,18 +1,34 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { AppShell, Button, Group, Image, Text } from "@mantine/core";
+import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import logo from "../assets/d20.svg";
+
+type Link = {
+	text: string;
+	to: string;
+};
+
+const LINKS: Link[] = [{ text: "Home", to: "/" }];
 
 export const Route = createRootRoute({
 	component: () => (
-		<>
-			<div>
-				<ul>
-					<li>Home</li>
-					<li>About</li>
-				</ul>
-			</div>
-			<hr />
-			<Outlet />
+		<AppShell header={{ height: 60 }}>
+			<AppShell.Header>
+				<Group px="md" h="100%" gap="md">
+					<Link to="/">
+						<Image src={logo} h={35} pl="xs" />
+					</Link>
+					{LINKS.map(({ text, to }) => (
+						<Link to={to}>
+							<Button variant="subtle">{text}</Button>
+						</Link>
+					))}
+				</Group>
+			</AppShell.Header>
+			<AppShell.Main>
+				<Outlet />
+			</AppShell.Main>
 			<TanStackRouterDevtools />
-		</>
+		</AppShell>
 	),
 });
