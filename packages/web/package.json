@@ -1,40 +1,44 @@
 {
-  "name": "web",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,scss}\"",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@mantine/core": "^7.16.3",
-    "@mantine/hooks": "^7.16.3",
-    "@tanstack/react-router": "^1.104.1",
-    "modern-normalize": "^3.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.19.0",
-    "@tanstack/router-devtools": "^1.104.3",
-    "@tanstack/router-plugin": "^1.104.1",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.19.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.18",
-    "globals": "^15.14.0",
-    "postcss": "^8.5.2",
-    "postcss-preset-mantine": "^1.17.0",
-    "postcss-simple-vars": "^7.0.1",
-    "prettier": "^3.4.2",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.22.0",
-    "vite": "^6.1.0"
-  }
+	"name": "web",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"format": "prettier --write \"src/**/*.{ts,tsx,css,scss}\"",
+		"lint": "eslint .",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@mantine/core": "^7.16.3",
+		"@mantine/hooks": "^7.16.3",
+		"@tanstack/react-query": "^5.66.0",
+		"@tanstack/react-query-devtools": "^5.66.0",
+		"@tanstack/react-router": "^1.104.1",
+		"ky": "^1.7.5",
+		"modern-normalize": "^3.0.1",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.19.0",
+		"@tanstack/eslint-plugin-query": "^5.66.1",
+		"@tanstack/router-devtools": "^1.104.3",
+		"@tanstack/router-plugin": "^1.104.1",
+		"@types/react": "^19.0.8",
+		"@types/react-dom": "^19.0.3",
+		"@vitejs/plugin-react": "^4.3.4",
+		"eslint": "^9.19.0",
+		"eslint-plugin-react-hooks": "^5.0.0",
+		"eslint-plugin-react-refresh": "^0.4.18",
+		"globals": "^15.14.0",
+		"postcss": "^8.5.2",
+		"postcss-preset-mantine": "^1.17.0",
+		"postcss-simple-vars": "^7.0.1",
+		"prettier": "^3.4.2",
+		"typescript": "~5.7.2",
+		"typescript-eslint": "^8.22.0",
+		"vite": "^6.1.0"
+	}
 }

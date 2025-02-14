@@ -19,7 +19,7 @@ export const Route = createRootRoute({
 						<Image src={logo} h={35} pl="xs" />
 					</Link>
 					{LINKS.map(({ text, to }) => (
-						<Link to={to}>
+						<Link to={to} key={to}>
 							<Button variant="subtle">{text}</Button>
 						</Link>
 					))}
