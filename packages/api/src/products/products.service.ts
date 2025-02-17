@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Configuration } from 'src/config/root.config';
 
 @Injectable()
-export class PaymentsService {
+export class ProductsService {
   private stripe: Stripe;
 
   constructor(private configService: ConfigService<Configuration, true>) {
