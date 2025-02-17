@@ -1,4 +1,4 @@
-import { AppShell, Button, Group, Image, Text } from "@mantine/core";
+import { AppShell, Button, Container, Group, Image } from "@mantine/core";
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import logo from "../assets/d20.svg";
@@ -26,7 +26,9 @@ export const Route = createRootRoute({
 				</Group>
 			</AppShell.Header>
 			<AppShell.Main>
-				<Outlet />
+				<Container p="md">
+					<Outlet />
+				</Container>
 			</AppShell.Main>
 			<TanStackRouterDevtools />
 		</AppShell>

@@ -4,4 +4,5 @@ export interface Product {
   description: string;
   /** Price in cents */
   price: number;
+  imageUrl: string;
 }

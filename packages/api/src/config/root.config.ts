@@ -6,6 +6,7 @@ declare global {
       PORT?: string;
       WEB_DOMAIN?: string;
       STRIPE_SECRET_KEY?: string;
+      PRODUCT_DEFAULT_IMAGE_URL?: string;
     }
   }
 }
@@ -30,6 +31,10 @@ export const getConfiguration = () => {
     stripe: {
       secretKey: getRequiredValue('STRIPE_SECRET_KEY'),
     },
+    productDefaultImageUrl: getOptionalValue(
+      'PRODUCT_DEFAULT_IMAGE_URL',
+      'https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/parcel-box-package-icon.png',
+    ),
   };
 };
 
