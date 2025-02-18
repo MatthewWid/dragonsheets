@@ -8,7 +8,10 @@ type Link = {
 	to: string;
 };
 
-const LINKS: Link[] = [{ text: "Home", to: "/" }];
+const LINKS: Link[] = [
+	{ text: "Home", to: "/" },
+	{ text: "Cards", to: "/cards" },
+];
 
 export const Route = createRootRoute({
 	component: () => (
