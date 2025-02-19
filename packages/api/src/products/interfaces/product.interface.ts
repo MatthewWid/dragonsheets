@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   description: string;
   /** Price in cents */
-  price: number;
+  priceValue: number;
+  priceId: string;
   imageUrl: string;
 }

@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SuccessImport } from './routes/success'
 import { Route as CardsImport } from './routes/cards'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProductsProductIdImport } from './routes/products.$productId'
 
 // Create/Update Routes
+
+const SuccessRoute = SuccessImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CardsRoute = CardsImport.update({
   id: '/cards',
@@ -67,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CardsImport
       parentRoute: typeof rootRoute
     }
+    '/success': {
+      id: '/success'
+      path: '/success'
+      fullPath: '/success'
+      preLoaderRoute: typeof SuccessImport
+      parentRoute: typeof rootRoute
+    }
     '/products/$productId': {
       id: '/products/$productId'
       path: '/products/$productId'
@@ -83,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/success': typeof SuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
@@ -90,6 +105,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/success': typeof SuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
@@ -98,15 +114,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/success': typeof SuccessRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/cards' | '/products/$productId'
+  fullPaths: '/' | '/about' | '/cards' | '/success' | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cards' | '/products/$productId'
-  id: '__root__' | '/' | '/about' | '/cards' | '/products/$productId'
+  to: '/' | '/about' | '/cards' | '/success' | '/products/$productId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/cards'
+    | '/success'
+    | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
 
@@ -114,6 +137,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CardsRoute: typeof CardsRoute
+  SuccessRoute: typeof SuccessRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
@@ -121,6 +145,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CardsRoute: CardsRoute,
+  SuccessRoute: SuccessRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
 }
 
@@ -137,6 +162,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/cards",
+        "/success",
         "/products/$productId"
       ]
     },
@@ -148,6 +174,9 @@ export const routeTree = rootRoute
     },
     "/cards": {
       "filePath": "cards.tsx"
+    },
+    "/success": {
+      "filePath": "success.tsx"
     },
     "/products/$productId": {
       "filePath": "products.$productId.tsx"

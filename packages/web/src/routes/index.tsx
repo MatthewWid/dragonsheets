@@ -5,11 +5,11 @@ import {
 	Button,
 	Card,
 	Center,
-	Group,
 	Image,
 	Loader,
 	SimpleGrid,
 	Text,
+	Title,
 } from "@mantine/core";
 import { getAllProducts } from "../api/getAllProducts";
 import { formatToCurrency } from "../utils/formatToCurrency";
@@ -26,6 +26,7 @@ function RouteComponent() {
 
 	return (
 		<>
+			<Title mb="md">Character Sheets</Title>
 			{isPending && (
 				<Center>
 					<Loader />
@@ -37,8 +38,8 @@ function RouteComponent() {
 				</Center>
 			)}
 			{data && (
-				<SimpleGrid>
-					{data.map(({ id, name, description, price, imageUrl }) => (
+				<SimpleGrid cols={3}>
+					{data.map(({ id, name, description, priceValue, imageUrl }) => (
 						<Link
 							to={`/products/$productId`}
 							params={{ productId: id }}
@@ -55,15 +56,13 @@ function RouteComponent() {
 										/>
 									</Center>
 								</Card.Section>
-								<Group>
-									<Text mt="md" mb="xs" fw={500}>
-										{name}
-									</Text>
-									<Badge>{formatToCurrency(price)}</Badge>
-								</Group>
-								<Text mb="xs" size="sm">
+								<Text mt="md" fw={500}>
+									{name}
+								</Text>
+								<Text my="xs" size="sm">
 									{description}
 								</Text>
+								<Badge mb="md">{formatToCurrency(priceValue)}</Badge>
 								<Button variant="outline" color="blue">
 									More details
 								</Button>

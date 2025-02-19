@@ -8,4 +8,4 @@ export type GetProductByIdRequest = {
 export type GetProductByIdResponse = Product;
 
 export const getProductById = ({ productId }: GetProductByIdRequest) =>
-	api.get<GetProductByIdResponse>(`products/${productId}`).json();
+	api.get<GetProductByIdResponse>(`products/product/${productId}`).json();

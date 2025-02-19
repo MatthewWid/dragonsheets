@@ -10,6 +10,7 @@ type Link = {
 
 const LINKS: Link[] = [
 	{ text: "Home", to: "/" },
+	{ text: "About", to: "/about" },
 	{ text: "Cards", to: "/cards" },
 ];
 

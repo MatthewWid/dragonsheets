@@ -14,6 +14,46 @@ export class ProductsService {
     this.stripe = new Stripe(stripeConfig.secretKey);
   }
 
+  convertStripeProductToProduct({
+    id,
+    name,
+    description,
+    default_price,
+    images,
+  }: Stripe.Product): Product {
+    const { id: priceId, unit_amount: priceValue = -1 } =
+      default_price as Stripe.Price & { unit_amount: number };
+
+    return {
+      id,
+      name,
+      description: description ?? '',
+      priceId,
+      priceValue,
+      imageUrl:
+        images?.[0] ??
+        this.configService.get<Configuration['productDefaultImageUrl']>(
+          'productDefaultImageUrl',
+        ),
+    };
+  }
+
+  async fetchAllProducts(): Promise<Product[]> {
+    const products = await this.stripe.products.list({
+      expand: ['data.default_price'],
+    });
+
+    return products.data.map(this.convertStripeProductToProduct);
+  }
+
+  async fetchProductById(productId: string): Promise<Product> {
+    const product = await this.stripe.products.retrieve(productId, {
+      expand: ['default_price'],
+    });
+
+    return this.convertStripeProductToProduct(product);
+  }
+
   /**
    * @returns URL of checkout page to redirect customer to
    */
@@ -30,53 +70,31 @@ export class ProductsService {
       ],
       mode: 'payment',
       success_url: `${webDomain}/success?checkout_session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${webDomain}/cancel`,
     });
 
     return session.url!;
   }
 
-  async fetchAllProducts(): Promise<Product[]> {
-    const productDefaultImageUrl = this.configService.get<
-      Configuration['productDefaultImageUrl']
-    >('productDefaultImageUrl');
+  async fetchCheckoutResult(sessionId: string): Promise<Product[] | null> {
+    const session = await this.stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items'],
+    });
+
+    if (session.payment_status !== 'paid') {
+      return null;
+    }
+
+    const productIds = session.line_items!.data.map(
+      ({ price }) => price?.product,
+    ) as string[];
 
     const products = await this.stripe.products.list({
+      ids: productIds,
       expand: ['data.default_price'],
     });
 
-    return products.data.map(
-      ({ id, name, description, default_price, images: [imageUrl] }) => ({
-        id,
-        name,
-        description: description ?? '',
-        price: (default_price as Stripe.Price).unit_amount ?? -1,
-        imageUrl: imageUrl ?? productDefaultImageUrl,
-      }),
-    );
-  }
+    console.log(products.data);
 
-  async fetchProductById(productId: string): Promise<Product> {
-    const productDefaultImageUrl = this.configService.get<
-      Configuration['productDefaultImageUrl']
-    >('productDefaultImageUrl');
-
-    const {
-      id,
-      name,
-      description,
-      default_price,
-      images: [imageUrl],
-    } = await this.stripe.products.retrieve(productId, {
-      expand: ['default_price'],
-    });
-
-    return {
-      id,
-      name,
-      description: description ?? '',
-      price: (default_price as Stripe.Price).unit_amount ?? -1,
-      imageUrl: imageUrl ?? productDefaultImageUrl,
-    };
+    return products.data.map(this.convertStripeProductToProduct);
   }
 }

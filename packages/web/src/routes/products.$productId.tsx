@@ -8,10 +8,11 @@ import {
 	Text,
 	Title,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { getProductById } from "../api/getProductById";
 import { formatToCurrency } from "../utils/formatToCurrency";
+import { createCheckoutSession } from "../api/createCheckoutSession";
 
 export const Route = createFileRoute("/products/$productId")({
 	component: RouteComponent,
@@ -27,6 +28,14 @@ function RouteComponent() {
 	} = useQuery({
 		queryKey: ["products", productId],
 		queryFn: () => getProductById({ productId }),
+	});
+
+	const checkoutMutation = useMutation({
+		mutationFn: async (priceId: string) => {
+			const { redirectUrl } = await createCheckoutSession({ priceId });
+
+			window.location.href = redirectUrl;
+		},
 	});
 
 	return (
@@ -50,9 +59,18 @@ function RouteComponent() {
 						<div>
 							<Title mb="md">{product.name}</Title>
 							<Text mb="md">{product.description}</Text>
-							<Button variant="outline" color="blue" fullWidth>
-								{`Buy for ${formatToCurrency(product.price)}`}
+							<Button
+								variant="outline"
+								color="blue"
+								fullWidth
+								onClick={() => checkoutMutation.mutate(product.priceId)}
+								loading={checkoutMutation.isPending}
+							>
+								{`Buy for ${formatToCurrency(product.priceValue)}`}
 							</Button>
+							{checkoutMutation.isError && (
+								<Text c="red">{checkoutMutation.error.message}</Text>
+							)}
 						</div>
 					</SimpleGrid>
 				</Container>
