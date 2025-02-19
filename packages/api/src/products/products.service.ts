@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { Stripe } from 'stripe';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -108,7 +109,11 @@ export class ProductsService {
       return null;
     }
 
-    if (!session.line_items!.data.some(({ id }) => id === productId)) {
+    if (
+      !session.line_items!.data.some(
+        (lineItem) => lineItem.price?.product === productId,
+      )
+    ) {
       return null;
     }
 
@@ -116,6 +121,21 @@ export class ProductsService {
       Configuration['productIdToAssetPath']
     >('productIdToAssetPath');
 
-    return productIdToAssetPath[productId] || null;
+    const fileName = productIdToAssetPath[productId];
+
+    if (!fileName) {
+      return null;
+    }
+
+    const env = this.configService.get<Configuration['env']>('env');
+
+    const filePath = join(
+      process.cwd(),
+      env === 'development' ? 'src' : 'dist',
+      'assets',
+      fileName,
+    );
+
+    return filePath;
   }
 }
