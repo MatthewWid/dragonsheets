@@ -93,8 +93,29 @@ export class ProductsService {
       expand: ['data.default_price'],
     });
 
-    console.log(products.data);
-
     return products.data.map(this.convertStripeProductToProduct);
+  }
+
+  async fetchAssetFilePath(
+    sessionId: string,
+    productId: string,
+  ): Promise<string | null> {
+    const session = await this.stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items'],
+    });
+
+    if (session.payment_status !== 'paid') {
+      return null;
+    }
+
+    if (!session.line_items!.data.some(({ id }) => id === productId)) {
+      return null;
+    }
+
+    const productIdToAssetPath = this.configService.get<
+      Configuration['productIdToAssetPath']
+    >('productIdToAssetPath');
+
+    return productIdToAssetPath[productId] || null;
   }
 }

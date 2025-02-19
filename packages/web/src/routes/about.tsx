@@ -11,7 +11,7 @@ function RouteComponent() {
 			<Title order={1} mb="md">
 				About
 			</Title>
-			<Title order={2}>Attributions</Title>
+			<Title order={2} mb="sm">Attributions</Title>
 			<List>
 				<List.Item>
 					Character sheets sourced from{" "}
