@@ -70,7 +70,7 @@ export class ProductsService {
         },
       ],
       mode: 'payment',
-      success_url: `${webDomain}/success?checkout_session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${webDomain}/checkout/result?checkout_session_id={CHECKOUT_SESSION_ID}`,
     });
 
     return session.url!;

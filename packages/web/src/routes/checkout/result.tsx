@@ -13,20 +13,20 @@ import {
 } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { getCheckoutSessionResult } from "../api/getCheckoutSessionResult";
-import { formatToCurrency } from "../utils/formatToCurrency";
-import { getPurchasedProductAssets } from "../api/getPurchasedProductAssets";
-import { Product } from "../types/Product";
+import { Product } from "../../types/Product";
+import { formatToCurrency } from "../../utils/formatToCurrency";
+import { getCheckoutSessionResult } from "../../api/getCheckoutSessionResult";
+import { getPurchasedProductAssets } from "../../api/getPurchasedProductAssets";
 
-type SuccessSearchParams = {
+type PurchasedSearchParams = {
 	checkout_session_id: string | null;
 };
 
-export const Route = createFileRoute("/success")({
+export const Route = createFileRoute("/checkout/result")({
 	component: RouteComponent,
 	validateSearch: (
 		search: Record<string, string | null>
-	): SuccessSearchParams => ({
+	): PurchasedSearchParams => ({
 		checkout_session_id: search.checkout_session_id || null,
 	}),
 	loaderDeps: ({ search: { checkout_session_id } }) => ({
@@ -41,15 +41,15 @@ export const Route = createFileRoute("/success")({
 	},
 });
 
-type ProductDownloadComponentProps = {
+type CheckoutResultComponentProps = {
 	product: Product;
 	sessionId: string;
 };
 
-function ProductResultComponent({
+function CheckoutResultComponent({
 	product: { id, name, description, priceValue, imageUrl },
 	sessionId,
-}: ProductDownloadComponentProps) {
+}: CheckoutResultComponentProps) {
 	const downloadMutation = useMutation({
 		mutationFn: async (productId: string) =>
 			await getPurchasedProductAssets({
@@ -97,7 +97,7 @@ function RouteComponent() {
 	const { checkout_session_id } = Route.useSearch();
 
 	const { isPending, error, data } = useQuery({
-		queryKey: ["checkout-session-result", checkout_session_id],
+		queryKey: ["checkout-result", checkout_session_id],
 		queryFn: () =>
 			getCheckoutSessionResult({ sessionId: checkout_session_id as string }),
 		enabled: Boolean(checkout_session_id),
@@ -120,7 +120,7 @@ function RouteComponent() {
 				<>
 					<Text mb="sm">Your items are now available for download.</Text>
 					{data.products.map((product) => (
-						<ProductResultComponent
+						<CheckoutResultComponent
 							product={product}
 							sessionId={checkout_session_id!}
 							key={product.id}

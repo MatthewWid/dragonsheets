@@ -11,19 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SuccessImport } from './routes/success'
 import { Route as CardsImport } from './routes/cards'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProductsProductIdImport } from './routes/products.$productId'
+import { Route as CheckoutResultImport } from './routes/checkout/result'
 
 // Create/Update Routes
-
-const SuccessRoute = SuccessImport.update({
-  id: '/success',
-  path: '/success',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const CardsRoute = CardsImport.update({
   id: '/cards',
@@ -46,6 +40,12 @@ const IndexRoute = IndexImport.update({
 const ProductsProductIdRoute = ProductsProductIdImport.update({
   id: '/products/$productId',
   path: '/products/$productId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CheckoutResultRoute = CheckoutResultImport.update({
+  id: '/checkout/result',
+  path: '/checkout/result',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,11 +74,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CardsImport
       parentRoute: typeof rootRoute
     }
-    '/success': {
-      id: '/success'
-      path: '/success'
-      fullPath: '/success'
-      preLoaderRoute: typeof SuccessImport
+    '/checkout/result': {
+      id: '/checkout/result'
+      path: '/checkout/result'
+      fullPath: '/checkout/result'
+      preLoaderRoute: typeof CheckoutResultImport
       parentRoute: typeof rootRoute
     }
     '/products/$productId': {
@@ -97,7 +97,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
-  '/success': typeof SuccessRoute
+  '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
@@ -105,7 +105,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
-  '/success': typeof SuccessRoute
+  '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
@@ -114,21 +114,26 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
-  '/success': typeof SuccessRoute
+  '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/cards' | '/success' | '/products/$productId'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/cards'
+    | '/checkout/result'
+    | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cards' | '/success' | '/products/$productId'
+  to: '/' | '/about' | '/cards' | '/checkout/result' | '/products/$productId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/cards'
-    | '/success'
+    | '/checkout/result'
     | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
@@ -137,7 +142,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CardsRoute: typeof CardsRoute
-  SuccessRoute: typeof SuccessRoute
+  CheckoutResultRoute: typeof CheckoutResultRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
@@ -145,7 +150,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CardsRoute: CardsRoute,
-  SuccessRoute: SuccessRoute,
+  CheckoutResultRoute: CheckoutResultRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
 }
 
@@ -162,7 +167,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/cards",
-        "/success",
+        "/checkout/result",
         "/products/$productId"
       ]
     },
@@ -175,8 +180,8 @@ export const routeTree = rootRoute
     "/cards": {
       "filePath": "cards.tsx"
     },
-    "/success": {
-      "filePath": "success.tsx"
+    "/checkout/result": {
+      "filePath": "checkout/result.tsx"
     },
     "/products/$productId": {
       "filePath": "products.$productId.tsx"

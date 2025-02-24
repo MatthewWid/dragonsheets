@@ -31,11 +31,8 @@ function RouteComponent() {
 	});
 
 	const checkoutMutation = useMutation({
-		mutationFn: async (priceId: string) => {
-			const { redirectUrl } = await createCheckoutSession({ priceId });
-
-			window.location.href = redirectUrl;
-		},
+		mutationFn: (priceId: string) => createCheckoutSession({ priceId }),
+		onSuccess: ({ redirectUrl }) => (window.location.href = redirectUrl),
 	});
 
 	return (
