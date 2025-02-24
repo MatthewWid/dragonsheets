@@ -9,6 +9,8 @@ declare global {
       WEB_DOMAIN?: string;
       STRIPE_SECRET_KEY?: string;
       PRODUCT_DEFAULT_IMAGE_URL?: string;
+      AUTH_OIDC_CONFIG_URL?: string;
+      AUTH_OIDC_CLIENT_ID?: string;
     }
   }
 }
@@ -36,10 +38,11 @@ export const getConfiguration = () => ({
   stripe: {
     secretKey: getRequiredValue('STRIPE_SECRET_KEY'),
   },
-  productDefaultImageUrl: getOptionalValue(
-    'PRODUCT_DEFAULT_IMAGE_URL',
-    'https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/parcel-box-package-icon.png',
-  ),
+  productDefaultImageUrl: getRequiredValue('PRODUCT_DEFAULT_IMAGE_URL'),
+  auth: {
+    oidcConfigUrl: getRequiredValue('AUTH_OIDC_CONFIG_URL'),
+    oidcClientId: getRequiredValue('AUTH_OIDC_CLIENT_ID'),
+  },
 });
 
 export type Configuration = ReturnType<typeof getConfiguration>;

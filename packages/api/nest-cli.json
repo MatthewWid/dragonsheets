@@ -11,5 +11,8 @@
         "watchAssets": true
       }
     ]
+  },
+  "generateOptions": {
+    "spec": false
   }
 }

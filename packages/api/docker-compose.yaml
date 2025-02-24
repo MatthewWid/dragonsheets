@@ -1,0 +1,26 @@
+# $schema: https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+volumes:
+  postgresql_data:
+    driver: local
+  keycloak:
+    driver: local
+services:
+  postgresql:
+    image: bitnami/postgresql:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=keycloak
+      - POSTGRESQL_DATABASE=keycloak
+    volumes:
+      - postgresql_data:/bitnami/postgresql
+  keycloak:
+    image: bitnami/keycloak:latest
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin123
+    restart: always
+    volumes:
+      - keycloak:/bitnami/keycloak
