@@ -1,6 +1,7 @@
-import { Button, Group, Image } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
+import { Button, Group, Image } from "@mantine/core";
 import logo from "../assets/d20.svg";
+import { useAuth } from "../hooks/use-auth";
 
 type Link = {
 	text: string;
@@ -13,15 +14,40 @@ const LINKS: Link[] = [
 	{ text: "Cards", to: "/cards" },
 ];
 
-export const Header = () => (
-	<Group px="md" h="100%" gap="md">
-		<Link to="/">
-			<Image src={logo} h={35} pl="xs" />
-		</Link>
-		{LINKS.map(({ text, to }) => (
-			<Link to={to} key={to}>
-				<Button variant="subtle">{text}</Button>
+export const Header = () => {
+	const { userQuery, logoutMutation, loginMutation } = useAuth();
+
+	return (
+		<Group justify="space-between" h="100%" px="md">
+			<Link to="/">
+				<Image src={logo} h={35} pl="xs" />
 			</Link>
-		))}
-	</Group>
-);
+			<div>
+				{LINKS.map(({ text, to }) => (
+					<Link to={to} key={to}>
+						<Button variant="subtle">{text}</Button>
+					</Link>
+				))}
+			</div>
+			<div>
+				{userQuery.data ? (
+					<Button
+						variant="subtle"
+						onClick={() => logoutMutation.mutate()}
+						loading={logoutMutation.isPending}
+					>
+						Log out
+					</Button>
+				) : (
+					<Button
+						variant="subtle"
+						onClick={() => loginMutation.mutate()}
+						loading={loginMutation.isPending}
+					>
+						Log in
+					</Button>
+				)}
+			</div>
+		</Group>
+	);
+};

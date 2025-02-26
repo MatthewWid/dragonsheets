@@ -15,13 +15,13 @@ export class ProductsService {
     this.stripe = new Stripe(stripeConfig.secretKey);
   }
 
-  convertStripeProductToProduct({
+  convertStripeProductToProduct = ({
     id,
     name,
     description,
     default_price,
     images,
-  }: Stripe.Product): Product {
+  }: Stripe.Product): Product => {
     const { id: priceId, unit_amount: priceValue = -1 } =
       default_price as Stripe.Price & { unit_amount: number };
 
@@ -37,7 +37,7 @@ export class ProductsService {
           'productDefaultImageUrl',
         ),
     };
-  }
+  };
 
   async fetchAllProducts(): Promise<Product[]> {
     const products = await this.stripe.products.list({

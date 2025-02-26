@@ -16,6 +16,7 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProductsProductIdImport } from './routes/products.$productId'
 import { Route as CheckoutResultImport } from './routes/checkout/result'
+import { Route as AuthLoginSuccessImport } from './routes/auth/login-success'
 
 // Create/Update Routes
 
@@ -49,6 +50,12 @@ const CheckoutResultRoute = CheckoutResultImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthLoginSuccessRoute = AuthLoginSuccessImport.update({
+  id: '/auth/login-success',
+  path: '/auth/login-success',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CardsImport
       parentRoute: typeof rootRoute
     }
+    '/auth/login-success': {
+      id: '/auth/login-success'
+      path: '/auth/login-success'
+      fullPath: '/auth/login-success'
+      preLoaderRoute: typeof AuthLoginSuccessImport
+      parentRoute: typeof rootRoute
+    }
     '/checkout/result': {
       id: '/checkout/result'
       path: '/checkout/result'
@@ -97,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/auth/login-success': typeof AuthLoginSuccessRoute
   '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
@@ -105,6 +120,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/auth/login-success': typeof AuthLoginSuccessRoute
   '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
@@ -114,6 +130,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cards': typeof CardsRoute
+  '/auth/login-success': typeof AuthLoginSuccessRoute
   '/checkout/result': typeof CheckoutResultRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
@@ -124,15 +141,23 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cards'
+    | '/auth/login-success'
     | '/checkout/result'
     | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cards' | '/checkout/result' | '/products/$productId'
+  to:
+    | '/'
+    | '/about'
+    | '/cards'
+    | '/auth/login-success'
+    | '/checkout/result'
+    | '/products/$productId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/cards'
+    | '/auth/login-success'
     | '/checkout/result'
     | '/products/$productId'
   fileRoutesById: FileRoutesById
@@ -142,6 +167,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CardsRoute: typeof CardsRoute
+  AuthLoginSuccessRoute: typeof AuthLoginSuccessRoute
   CheckoutResultRoute: typeof CheckoutResultRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
@@ -150,6 +176,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CardsRoute: CardsRoute,
+  AuthLoginSuccessRoute: AuthLoginSuccessRoute,
   CheckoutResultRoute: CheckoutResultRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
 }
@@ -167,6 +194,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/cards",
+        "/auth/login-success",
         "/checkout/result",
         "/products/$productId"
       ]
@@ -179,6 +207,9 @@ export const routeTree = rootRoute
     },
     "/cards": {
       "filePath": "cards.tsx"
+    },
+    "/auth/login-success": {
+      "filePath": "auth/login-success.tsx"
     },
     "/checkout/result": {
       "filePath": "checkout/result.tsx"

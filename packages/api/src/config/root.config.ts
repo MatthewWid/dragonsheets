@@ -9,8 +9,9 @@ declare global {
       WEB_DOMAIN?: string;
       STRIPE_SECRET_KEY?: string;
       PRODUCT_DEFAULT_IMAGE_URL?: string;
-      AUTH_OIDC_CONFIG_URL?: string;
+      AUTH_OIDC_IDP_URL?: string;
       AUTH_OIDC_CLIENT_ID?: string;
+      AUTH_OIDC_CLIENT_SECRET?: string;
     }
   }
 }
@@ -35,13 +36,14 @@ export const getConfiguration = () => ({
     | 'production',
   port: Number.parseInt(getOptionalValue('PORT', '3000'), 10),
   webDomain: getRequiredValue('WEB_DOMAIN'),
+  productDefaultImageUrl: getRequiredValue('PRODUCT_DEFAULT_IMAGE_URL'),
   stripe: {
     secretKey: getRequiredValue('STRIPE_SECRET_KEY'),
   },
-  productDefaultImageUrl: getRequiredValue('PRODUCT_DEFAULT_IMAGE_URL'),
   auth: {
-    oidcConfigUrl: getRequiredValue('AUTH_OIDC_CONFIG_URL'),
+    oidcIdpUrl: getRequiredValue('AUTH_OIDC_IDP_URL').replace(/\/$/, ''),
     oidcClientId: getRequiredValue('AUTH_OIDC_CLIENT_ID'),
+    oidcClientSecret: getRequiredValue('AUTH_OIDC_CLIENT_SECRET'),
   },
 });
 
