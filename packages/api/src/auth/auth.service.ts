@@ -122,6 +122,10 @@ export class AuthService implements OnModuleInit {
       state: oidc.randomState(),
     });
 
-    return oidc.buildEndSessionUrl(this.oidcConfig, parameters).toString();
+    return {
+      logoutUrl: oidc
+        .buildEndSessionUrl(this.oidcConfig, parameters)
+        .toString(),
+    };
   }
 }

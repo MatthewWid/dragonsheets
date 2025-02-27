@@ -12,6 +12,9 @@ import { AuthService } from './auth.service';
 import { PostExchangeDto } from './dto/post-exchange.dto';
 import { Request, Response } from 'express';
 
+const CO_KEY_ACCESS_TOKEN = 'access_token';
+const CO_KEY_HAS_ACCESS_TOKEN = 'has_access_token';
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -32,8 +35,8 @@ export class AuthController {
       state,
     );
 
-    res.cookie('access_token', jwt, { httpOnly: true });
-    res.cookie('has_access_token', true);
+    res.cookie(CO_KEY_ACCESS_TOKEN, jwt, { httpOnly: true });
+    res.cookie(CO_KEY_HAS_ACCESS_TOKEN, true);
   }
 
   @Get('me')
@@ -54,15 +57,21 @@ export class AuthController {
 
       return { id, displayName, username, email };
     } catch (error) {
-      res.clearCookie('access_token');
-      res.clearCookie('has_access_token');
+      res.clearCookie(CO_KEY_ACCESS_TOKEN);
+      res.clearCookie(CO_KEY_HAS_ACCESS_TOKEN);
 
       throw new ForbiddenException('Login token could not be verified.');
     }
   }
 
-  @Post('logout')
-  async postLogout() {
+  @Post('logout-init')
+  async postLogoutInit() {
     return this.authService.createLogoutUrl();
+  }
+
+  @Post('logout-success')
+  async postLogoutSuccess(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie(CO_KEY_ACCESS_TOKEN);
+    res.clearCookie(CO_KEY_HAS_ACCESS_TOKEN);
   }
 }

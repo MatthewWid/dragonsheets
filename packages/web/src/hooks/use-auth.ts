@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 import { getMe } from "../api/getMe";
 import { postLogin } from "../api/postLogin";
 import { postExchange } from "../api/postExchange";
-import { postLogout } from "../api/postLogout";
+import { postLogoutInit } from "../api/postLogoutInit";
+import { postLogoutSuccess } from "../api/postLogoutSuccess";
 
 type lsOidcContents = {
 	codeVerifier: string;
@@ -70,10 +71,17 @@ export const useAuth = () => {
 		},
 	});
 
-	const logoutMutation = useMutation({
-		mutationFn: postLogout,
+	const logoutInitMutation = useMutation({
+		mutationFn: postLogoutInit,
 		onSuccess: ({ logoutUrl }) => {
 			window.location.href = logoutUrl;
+		},
+	});
+
+	const logoutSuccessMutation = useMutation({
+		mutationFn: postLogoutSuccess,
+		onSuccess: () => {
+			window.location.href = "/";
 		},
 	});
 
@@ -81,6 +89,7 @@ export const useAuth = () => {
 		userQuery,
 		loginMutation,
 		exchangeMutation,
-		logoutMutation,
+		logoutInitMutation,
+		logoutSuccessMutation,
 	};
 };

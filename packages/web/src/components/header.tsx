@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Button, Group, Image } from "@mantine/core";
+import { Avatar, Button, Group, Image, Menu } from "@mantine/core";
 import logo from "../assets/d20.svg";
 import { useAuth } from "../hooks/use-auth";
 
@@ -15,7 +15,7 @@ const LINKS: Link[] = [
 ];
 
 export const Header = () => {
-	const { userQuery, logoutMutation, loginMutation } = useAuth();
+	const { userQuery, logoutInitMutation, loginMutation } = useAuth();
 
 	return (
 		<Group justify="space-between" h="100%" px="md">
@@ -31,13 +31,24 @@ export const Header = () => {
 			</div>
 			<div>
 				{userQuery.data ? (
-					<Button
-						variant="subtle"
-						onClick={() => logoutMutation.mutate()}
-						loading={logoutMutation.isPending}
-					>
-						Log out
-					</Button>
+					<Menu shadow="md">
+						<Menu.Target>
+							<Avatar
+								key={userQuery.data.displayName}
+								name={userQuery.data.displayName}
+								color="initials"
+								style={{ cursor: "pointer" }}
+							/>
+						</Menu.Target>
+						<Menu.Dropdown>
+							<Menu.Item
+								onClick={() => logoutInitMutation.mutate()}
+								disabled={logoutInitMutation.isPending}
+							>
+								Logout
+							</Menu.Item>
+						</Menu.Dropdown>
+					</Menu>
 				) : (
 					<Button
 						variant="subtle"
