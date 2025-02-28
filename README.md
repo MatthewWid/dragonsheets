@@ -4,6 +4,8 @@ Online shopping platform for [Dungeons & Dragons](https://www.dndbeyond.com/) ch
 
 A demo project to learn payment integrations with [Stripe](https://stripe.com/) and authentication with [OpenID Connect](https://openid.net/developers/how-connect-works/).
 
+<p align="center">https://github.com/user-attachments/assets/e797420c-7ada-42ab-8f15-9093a3d28a5e</p>
+
 ## Technologies
 
 ### Shared
