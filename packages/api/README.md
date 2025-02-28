@@ -35,14 +35,14 @@ $ pnpm install
 ## Compile and run the project
 
 ```bash
-# development
+# one-off development run
 $ pnpm run start
 
-# watch mode
-$ pnpm run start:dev
+# development
+$ pnpm run dev
 
-# production mode
-$ pnpm run start:prod
+# run in production mode
+$ pnpm run run
 ```
 
 ## Run tests
